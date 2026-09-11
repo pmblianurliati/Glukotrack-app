@@ -1,1 +1,23 @@
-{}
+{
+  "2026-09-11": {
+    "date": "2026-09-11",
+    "isIF": true,
+    "gulaPuasa": 90,
+    "ifStart": "17:00",
+    "ifFirstMeal": "10:00",
+    "makan": [
+      {
+        "id": 1789105497384.3289,
+        "waktu": "10:00",
+        "menu": "Steak daging"
+      }
+    ],
+    "cek2Jam": false,
+    "gula2Jam": null,
+    "isAktivitas": false,
+    "aktivitas": [],
+    "konsumsiLain": [],
+    "airMinum": null,
+    "catatan": ""
+  }
+}
