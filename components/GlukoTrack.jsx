@@ -210,23 +210,18 @@ export default function GlukoTrackApp() {
   const [filterAktivitas, setFilterAktivitas] = useState("all");
   const [filterJenis, setFilterJenis] = useState([]);
 
-  // ---------- load from the GitHub-backed API ----------
+  const STORAGE_KEY = "glukotrack_entries";
+
+  // ---------- load from THIS device's local storage (not shared across devices) ----------
   useEffect(() => {
-    let cancelled = false;
-    async function load() {
-      try {
-        const res = await fetch("/api/entries", { cache: "no-store" });
-        const json = await res.json();
-        if (!res.ok) throw new Error(json.error || "Gagal memuat data.");
-        if (!cancelled) setEntries(json.entries || {});
-      } catch (e) {
-        if (!cancelled) setLoadError(e.message);
-      } finally {
-        if (!cancelled) setLoading(false);
-      }
+    try {
+      const raw = window.localStorage.getItem(STORAGE_KEY);
+      setEntries(raw ? JSON.parse(raw) : {});
+    } catch (e) {
+      setLoadError("Gagal memuat data dari penyimpanan lokal perangkat ini.");
+    } finally {
+      setLoading(false);
     }
-    load();
-    return () => { cancelled = true; };
   }, []);
 
   function openManageModal() {
@@ -267,17 +262,12 @@ export default function GlukoTrackApp() {
     setSaving(true);
     setFormError("");
     try {
-      const res = await fetch("/api/entries", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ date: record.date, record }),
-      });
-      const json = await res.json();
-      if (!res.ok) throw new Error(json.error || "Gagal menyimpan.");
-      setEntries(json.entries || {});
+      const next = { ...entries, [record.date]: record };
+      window.localStorage.setItem(STORAGE_KEY, JSON.stringify(next));
+      setEntries(next);
       setShowModal(false);
     } catch (e) {
-      setFormError(e.message);
+      setFormError("Gagal menyimpan ke penyimpanan lokal perangkat ini.");
     } finally {
       setSaving(false);
     }
@@ -286,17 +276,13 @@ export default function GlukoTrackApp() {
     setSaving(true);
     setFormError("");
     try {
-      const res = await fetch("/api/entries", {
-        method: "DELETE",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ date: form.date }),
-      });
-      const json = await res.json();
-      if (!res.ok) throw new Error(json.error || "Gagal menghapus.");
-      setEntries(json.entries || {});
+      const next = { ...entries };
+      delete next[form.date];
+      window.localStorage.setItem(STORAGE_KEY, JSON.stringify(next));
+      setEntries(next);
       setShowModal(false);
     } catch (e) {
-      setFormError(e.message);
+      setFormError("Gagal menghapus.");
     } finally {
       setSaving(false);
     }
@@ -543,7 +529,7 @@ export default function GlukoTrackApp() {
 
         {loadError && (
           <div className="error-banner">
-            Gagal memuat data: {loadError} — cek Environment Variables (GITHUB_TOKEN, GITHUB_OWNER, GITHUB_REPO) di pengaturan project Vercel.
+            Gagal memuat data: {loadError}
           </div>
         )}
 
