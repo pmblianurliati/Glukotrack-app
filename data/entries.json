@@ -40,5 +40,26 @@
     "konsumsiLain": [],
     "airMinum": null,
     "catatan": ""
+  },
+  "2026-09-09": {
+    "date": "2026-09-09",
+    "isIF": true,
+    "gulaPuasa": 120,
+    "ifStart": "17:00",
+    "ifFirstMeal": "10:30",
+    "makan": [
+      {
+        "id": 1789106171719.7395,
+        "waktu": "10:30",
+        "menu": "sayur lodeh"
+      }
+    ],
+    "cek2Jam": false,
+    "gula2Jam": null,
+    "isAktivitas": false,
+    "aktivitas": [],
+    "konsumsiLain": [],
+    "airMinum": null,
+    "catatan": ""
   }
 }
