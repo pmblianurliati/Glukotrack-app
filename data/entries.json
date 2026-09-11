@@ -19,5 +19,26 @@
     "konsumsiLain": [],
     "airMinum": null,
     "catatan": ""
+  },
+  "2026-09-10": {
+    "date": "2026-09-10",
+    "isIF": true,
+    "gulaPuasa": 105,
+    "ifStart": "18:30",
+    "ifFirstMeal": "10:00",
+    "makan": [
+      {
+        "id": 1789105560072.349,
+        "waktu": "10:00",
+        "menu": "Pepes tahu"
+      }
+    ],
+    "cek2Jam": false,
+    "gula2Jam": null,
+    "isAktivitas": false,
+    "aktivitas": [],
+    "konsumsiLain": [],
+    "airMinum": null,
+    "catatan": ""
   }
 }
